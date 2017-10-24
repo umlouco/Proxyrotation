@@ -1,0 +1,22 @@
+{
+    "name": "marioflores/proxy",
+    "type": "library",
+    "description": "Proxy system",
+    "keywords": [],
+    "homepage": "https://mario-flores.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mario Flores",
+            "email": "umlouco@hotmail.com"
+        }
+    ],
+    "require": {
+       "illuminate/database": "^5.4", 
+       "guzzlehttp/guzzle": "^6.2" 
+    },
+    "autoload": {
+        "psr-4": { "MarioFlores\\Proxy\\": "" }
+    },
+    "minimum-stability": "dev" 
+}
