@@ -11,9 +11,10 @@ use GuzzleHttp\Exception\RequestException;
 class Proxy {
     public $output = false; 
     public function getProxy() {
-        $this->checkStock();
+      
         $tested = false;
         while ($tested == false) {
+            $this->checkStock();
             $proxy = Database::orderByRaw("RAND()")->first();
             $proxy = $proxy;
             $tested = $this->test($proxy);
@@ -27,7 +28,7 @@ class Proxy {
         }
     }
 
-    private function checkStock() {
+    public function checkStock() {
         $stock = Database::all()->count();
         if ($stock < 50) {
             $scrape = new Scrape;
@@ -54,6 +55,7 @@ class Proxy {
                 'http_errors' => false
             ]);
             if ($response->getStatusCode() == 200) {
+                $this->output('response was 200 '); 
                 $header = $response->getHeader('Content-Type');
                 if ($header[0] != 'application/json') {
                     $this->output('Response was not json '); 
@@ -64,6 +66,7 @@ class Proxy {
                         $this->output('Response was empty '); 
                         return false;
                     } else {
+                        $this->output('response was not empty '); 
                         $json = $resposta;
                         $resposta = json_decode($json);
                         if ($resposta->ip == '62.28.58.182') {
@@ -76,10 +79,11 @@ class Proxy {
                     }
                 }
             } else {
-                $this->output('Response was different then 2000 '); 
+                $this->output('Response was different then 200'); 
                 return false;
             }
         } catch (RequestException $ex) {
+            $this->output($ex->getMessage()); 
             return false;
         }
     }
